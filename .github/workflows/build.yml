@@ -5,17 +5,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Extract project
         run: unzip CodexBarAndroid.zip
+
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Build APK
         run: |
           cd CodexBarAndroid
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          gradle assembleDebug
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
